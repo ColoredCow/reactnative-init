@@ -12,8 +12,8 @@ Boilerplate code for your next ReactNative app! :rocket:
    ```
 2. Set up the build config files:
     ```sh
-    cp src/env/debug.js.example src/env/debug.js
-    cp src/env/release.js.example src/env/release.js
+    cp src/env/debug.example.js src/env/debug.js
+    cp src/env/release.example.js src/env/release.js
     ```
 3. Update the files `src/env/debug.js` and `src/env/release.js` to set up environment variables.
 4. Install the dependencies:
