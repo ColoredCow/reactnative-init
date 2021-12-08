@@ -10,17 +10,20 @@ Boilerplate code for your next ReactNative app! :rocket:
    ```sh
    git clone https://github.com/coloredcow/reactnative-boilerplate project-name
    ```
-2. Set up the build config files:
+2. Rename the files and foler for your project
+   To find out the files and directory that needs to be renamed, refer to the changes in this [PR](https://github.com/ColoredCow/reactnative-init/pull/1/files) (here app "HUGE" is renamed to "AwesomeProject").
+
+3. Set up the build config files:
     ```sh
     cp src/env/debug.example.js src/env/debug.js
     cp src/env/release.example.js src/env/release.js
     ```
-3. Update the files `src/env/debug.js` and `src/env/release.js` to set up environment variables.
-4. Install the dependencies:
+4. Update the files `src/env/debug.js` and `src/env/release.js` to set up environment variables.
+5. Install the dependencies:
     ```sh
     yarn install
     ```
-5. Build the app and launch the Android emulator:
+6. Build the app and launch the Android emulator:
     ```sh
     npx react-native run-android --verbose
     ```
