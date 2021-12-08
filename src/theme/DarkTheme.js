@@ -18,9 +18,14 @@ const DEFAULT_BORDER_RADIUS = {
   default: 4,
 };
 
+const DEFAULT_FONT_SIZE = {
+  default: 14,
+};
+
 export const DEFAULT_DARK_THEME = {
   id: DEFAULT_DARK_THEME_ID,
   colors: DEFAULT_DARK_COLOR_THEME,
   spacing: DEFAULT_DARK_SPACING_THEME,
   borderRadius: DEFAULT_BORDER_RADIUS,
+  fontSize: DEFAULT_FONT_SIZE,
 };

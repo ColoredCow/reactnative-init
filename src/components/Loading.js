@@ -1,14 +1,14 @@
 import React from 'react';
 import {View, ActivityIndicator} from 'react-native';
 
-export const Loading = () => {
+export default Loading = props => {
   return (
     <View
       style={{
         flex: 1,
         justifyContent: 'center',
       }}>
-      <ActivityIndicator color={'#000'} animating={true} size="small" />
+      <ActivityIndicator color={'green'} animating={true} size="small" />
     </View>
   );
 };

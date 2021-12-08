@@ -15,7 +15,6 @@ export const PrimaryButton = props => {
 };
 
 const createComponentStyles = theme => {
-  console.log(theme.colors);
   return StyleSheet.create({
     buttonContainer: {
       width: '100%',

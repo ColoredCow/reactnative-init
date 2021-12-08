@@ -7,6 +7,8 @@ import {
   DEFAULT_LIGHT_THEME_ID,
 } from 'src/theme/LightTheme';
 
+import createGlobalStyles from 'src/styles/GlobalStyles';
+
 const Context = React.createContext({
   theme: DEFAULT_LIGHT_THEME,
   toggleTheme: () => {
@@ -28,13 +30,16 @@ const ThemeProvider = React.memo(props => {
     });
   }, []);
 
+  const globalStyles = createGlobalStyles(theme);
+
   const MemoizedValue = React.useMemo(() => {
     const value = {
       theme,
       toggleTheme: ToggleThemeCallback,
+      globalStyles: globalStyles,
     };
     return value;
-  }, [theme, ToggleThemeCallback]);
+  }, [theme, ToggleThemeCallback, globalStyles]);
 
   return (
     <Context.Provider value={MemoizedValue}>{props.children}</Context.Provider>

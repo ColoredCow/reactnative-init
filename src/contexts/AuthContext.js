@@ -1,6 +1,8 @@
 import React, {createContext, useState, useContext, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthApi from 'src/apis/AuthApi';
+import AccessToken from 'src/shared/AccessToken';
+import AuthUser from 'src/shared/AuthUser';
 
 const AuthContext = createContext({});
 
@@ -23,8 +25,6 @@ const AuthProvider = ({children}) => {
 
   async function isFirstTimeApp() {
     AsyncStorage.getItem('isFirstTimeApp').then(value => {
-      console.log('isFirstTimeApp', value);
-
       if (typeof value === 'string') {
         setIsFirstTime(false);
         return true;
@@ -37,11 +37,11 @@ const AuthProvider = ({children}) => {
 
   async function loadAuthDataFromStorage() {
     try {
-      const authToken = await AsyncStorage.getItem('AUTH_TOKEN');
+      const authToken = await AccessToken.get();
 
       if (authToken) {
         const _authToken = authToken;
-        const authData = await AsyncStorage.getItem('AUTH_DATA');
+        const authData = await AuthUser.get();
         setAuthToken(_authToken);
         setAuthData(authData);
       }
@@ -52,18 +52,21 @@ const AuthProvider = ({children}) => {
   }
 
   const signIn = async userData => {
-    const _authData = await AuthApi.signIn(userData);
-
-    const authToken = _authData.access_token;
-    AsyncStorage.setItem('AUTH_TOKEN', authToken);
-    AsyncStorage.setItem('AUTH_DATA', JSON.stringify(_authData.user));
-    setAuthToken(authToken);
-    setAuthData(_authData.user);
+    try {
+      const _authData = await AuthApi.signIn(userData);
+      const authToken = _authData.access_token;
+      AccessToken.set(authToken);
+      AuthUser.set(_authData.user);
+      setAuthToken(authToken);
+      setAuthData(_authData.user);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const signOut = async () => {
-    await AsyncStorage.removeItem('AUTH_TOKEN');
-    await AsyncStorage.removeItem('AUTH_DATA');
+    await AccessToken.clear();
+    await AuthUser.clear();
 
     setAuthToken(undefined);
     setAuthData(undefined);
