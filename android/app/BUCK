@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.huge",
+    package = "com.awesomeproject",
 )
 
 android_resource(
     name = "res",
-    package = "com.huge",
+    package = "com.awesomeproject",
     res = "src/main/res",
 )
 
