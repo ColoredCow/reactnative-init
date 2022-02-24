@@ -18,6 +18,10 @@ export const SignInScreen = () => {
     await auth.signIn(data);
   };
 
+  const appleSignIn = async () => {
+    await auth.appleSignIn();
+  };
+
   const {theme} = useTheme();
   const Styles = React.useMemo(() => createStyles(theme), [theme]);
   const formMethods = useForm();
