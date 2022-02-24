@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthApi from 'src/apis/AuthApi';
 import AccessToken from 'src/shared/AccessToken';
 import AuthUser from 'src/shared/AuthUser';
+import {appleAuth} from '@invertase/react-native-apple-authentication';
+import jwt_decode from 'jwt-decode';
 
 const AuthContext = createContext({});
 
@@ -64,6 +66,41 @@ const AuthProvider = ({children}) => {
     }
   };
 
+  const appleSignIn = async () => {
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      const {identityToken} = appleAuthRequestResponse;
+
+      let appleUserData = jwt_decode(identityToken);
+
+      if (!appleUserData['email']) {
+        Alert.alert(
+          'Something is not right with apple account! Not able to access email',
+        );
+        return false;
+      }
+
+      const _authData = await AuthApi.loginViaExternalProvider({
+        apple_user: {user: appleUserData},
+        domain: 'apple',
+      });
+
+      await setupAuthData(_authData);
+    } catch (error) {
+      if (
+        ![appleAuth.Error.UNKNOWN, appleAuth.Error.CANCELED].includes(
+          error.code,
+        )
+      ) {
+        Alert.alert('An error occurred while continuing with Apple.');
+      }
+    }
+  };
+
   const signOut = async () => {
     await AccessToken.clear();
     await AuthUser.clear();
@@ -84,6 +121,7 @@ const AuthProvider = ({children}) => {
         authData,
         loading,
         signIn,
+        appleSignIn,
         signOut,
         isFirstTime,
         firstTimeAppCompleted,
